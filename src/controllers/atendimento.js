@@ -7,6 +7,16 @@ routes.get("/", async (req, res) => {
   res.status(200).send({ atendimentos: atendimentos });
 });
 
+routes.get("/delete", async (req, res) => {
+  try {
+    await Atendimento.remove({}).exec();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ message: "deleted Error" });
+  }
+  return res.status(200).send({ message: "deleted successfully" });
+});
+
 routes.post("/", async (req, res) => {
   let { body: atendimento } = req;
   try {
@@ -17,4 +27,4 @@ routes.post("/", async (req, res) => {
   return res.status(200).send({ atendimento });
 });
 
-module.exports = app => app.use("/api/atendimento", routes);
+module.exports = app => app.use("/api/atendimentos", routes);
